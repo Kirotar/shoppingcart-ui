@@ -1,18 +1,18 @@
 <template>
-  <div class="container mt-4 bg-primary-subtle rounded-5">
+
+  <div class="container mt-4 rounded-5 custom-bg">
     <br>
-    <h1 class="text-center mb-4">Shopping Cart</h1>
-    <div class="text-center p-3 mb-2 bg-secondary-subtle text-secondary-emphasis">Hello, John!</div>
+    <h1 class="text-center mb-4" style="color:white">Shopping Cart</h1>
     <div class="row g-3">
       <form @submit.prevent="addProduct" class="row mb-3">
         <input v-model="newProduct.name" placeholder="Product" class="form-control col" required/>
         <input v-model.number="newProduct.quantity" type="number" placeholder="Qty" class="form-control col" required/>
         <input v-model.number="newProduct.price" type="number" step="0.01" placeholder="Price" class="form-control col"
                required/>
-        <button class="btn btn-primary col btn-lg">Add</button>
+        <button class="btn btn-primary col btn-lg" style="background-color: darkslategrey; border-color: white;">Add</button>
       </form>
     </div>
-    </div>
+  </div>
   <div class="container mt-4">
 
     <table class="table">
@@ -31,47 +31,33 @@
         <td>${{ item.price }}</td>
 
         <td>
-          <button @click="removeProduct(item.name)" class="btn btn-success">Remove</button>
-
+          <button @click="removeProduct(item.name)" class="btn btn-danger" style="background-color:yellowgreen; border-color: antiquewhite;">Remove</button>
         </td>
-
       </tr>
       </tbody>
     </table>
-
+    <p style="font-size: 20px"> Tax: 22% </p>
     <h3 class="mt-4">Total: ${{ cartTotal.toFixed(2) }}</h3>
+    <br>
+    <br>
 
-    <div class="dropdown">
-      <a class="btn btn-danger dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Apply discount </a>
 
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">SUMMR</a></li>
-        <li><a class="dropdown-item" href="#">Christmas 2024</a></li>
-        <li><a class="dropdown-item" href="#">New Client</a></li>
-      </ul>
-    </div>
+    <form>
+      <div class="row content">
+        <div class="col-md">
+          <input type="text" id="fname" name="fname" placeholder="Enter discount code"><br>
+        </div>
+        <div class="col-sm-10">
+          <input type="submit" id="discountButton" class="btn btn-warning" value="Apply discount!">
+        </div>
+      </div>
+
+
+    </form>
     <br>
     <br>
   </div>
 
-  <div class="container">
-    <div class="row content">
-      <div class="col-sm-4 bg-info">col-sm-4</div>
-      <div class="col-sm-4 bg-warning">col-sm-4</div>
-      <div class="col-sm-4 bg-danger">col-sm-4</div>
-    </div>
-    <div class="row content">
-      <div class="col-sm-2 bg-info">col-sm-2</div>
-      <div class="col-sm-4 bg-warning">col-sm-4</div>
-      <div class="col-sm-6 bg-danger">col-sm-6</div>
-    </div>
-    <div class="row content">
-      <div class="col-sm-2 bg-info">col-sm-2</div>
-      <div class="col-sm-5 bg-warning">col-sm-5</div>
-      <div class="col-sm-5 bg-danger">col-sm-5</div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -87,16 +73,16 @@ export default {
   methods: {
     fetchCart() {
       axios.all([
-        axios.get(`${this.api}/cart-items`).then(res => (this.cartItems = res.data)),
-        axios.get(`${this.api}/total`).then(res => (this.cartTotal = res.data)),
+        axios.get(${this.api}/cart-items).then(res => (this.cartItems = res.data)),
+        axios.get(${this.api}/total).then(res => (this.cartTotal = res.data)),
       ]);
     },
     addProduct() {
-      axios.post(`${this.api}/add-product`, this.newProduct).then(this.fetchCart);
+      axios.post(${this.api}/add-product, this.newProduct).then(this.fetchCart);
       this.newProduct = {name: "", price: 0, quantity: 1};
     },
     removeProduct(name) {
-      axios.delete(`${this.api}/delete-item/${name}`).then(this.fetchCart);
+      axios.delete(${this.api}/delete-item/${name}).then(this.fetchCart);
     },
   },
   mounted() {
@@ -104,3 +90,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.custom-bg {
+  background-color: rebeccapurple; opacity: 0.5;
+}
+</style>
